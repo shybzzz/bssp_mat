@@ -5,10 +5,13 @@ function [] = bscan( ascans, p , h_eval, step, begin)
 s = size(ascans);
 [Z, H] = extract_from_ascans( ascans, p , h_eval );
 
-x = begin + (0:step:(s(1) - 1)*step);
+ss = (s(1) - 1)*step;
+x = begin + (0:step:ss);
 y = H;
-[x ,y] = meshgrid(x, y);
-bscanfigure(x, y, Z', p);
+[x_ ,y_] = meshgrid(x, y);
+f = figure;
+bscanfigure(f, x_, y_, Z', p);
+pbaspect([ss, h_eval, 1]);
 
 %title(str_v_u('step_l= ', step, 'mm'));
 
