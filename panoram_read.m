@@ -28,11 +28,19 @@ for lcX  = 1:sX
     end
     bss = [bss; bssAll];
     notNan = bssAll(~isnan(bssAll));
+    sNotNan = size(notNan);
+    
     bss_median(lcX) = median(notNan);
     bss_mean(lcX) = mean(notNan);
-    bss_min(lcX) = min(notNan);
-    bss_max(lcX) = max(notNan);
-    sNotNan = size(notNan);
+    
+    if sNotNan(2)>0
+        bss_min(lcX) = min(notNan);
+        bss_max(lcX) = max(notNan);
+    else
+        bss_min(lcX) = NaN;
+        bss_max(lcX) = NaN;
+    end
+    
     bss_size(lcX) = sNotNan(2);
 end
 bss = bss';

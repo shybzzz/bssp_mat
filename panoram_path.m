@@ -1,9 +1,13 @@
-function [ data, bss, bss_min, bss_max, bss_median ] = panoram_path( files, size_x, size_y, per_specimen )
+function [ data, bss, bss_min, bss_max, bss_median, files ] = panoram_path( specimens, size_x, size_y, per_specimen, root, fileName )
 %PANORAM_PATH Summary of this function goes here
 %   Detailed explanation goes here
 
+files = specimens_path(specimens, root, fileName);
+[data, bss, bss_median, bss_size, bss_mean, bss_min, bss_max] = panoram_read(files, per_specimen);
 
-[data, bss, bss_median, bss_size, bss_mean, bss_min, bss_max, sX, sY] = panoram_read(files, per_specimen);
+dataS = size(data);
+sX = dataS(2);
+sY = dataS(1);
 
 bss_max_ = max(bss_max);
 
@@ -28,12 +32,15 @@ for lcX = 1:sX
         ));
 end
 
+
+
 for lcX  = 1:sX
     for lcY = 1:sY
         d = data(lcY, lcX);
-        subplot1 = subplot(sY + 1, sX, lcY * sX + lcX , 'CLim',[0 bss_max_]);
         
         if isempty(d.z) == 0
+            subplot1 = subplot(sY + 1, sX, lcY * sX + lcX , 'CLim',[0 bss_max_]);
+
             label = files(lcY, lcX).label;
             
             dBss = d.bss;
@@ -50,11 +57,9 @@ for lcX  = 1:sX
                 ));
             
             cscan_figure(subplot1, d.x,d.y,d.z);
-        end
-        
-        colorbar('Limits',[0 bss_max_]);
-        
-        pbaspect([size_x size_y 1]);
+            colorbar('Limits',[0 bss_max_]);        
+            pbaspect([size_x size_y 1]);
+        end                
     end
 end
 
