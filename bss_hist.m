@@ -1,0 +1,33 @@
+function [] = bss_hist( fig, bss, sX, sY, bss_max_, bss_median, bss_mean, bss_min, bss_max, bss_size )
+%HIST_PATH Summary of this function goes here
+%   Detailed explanation goes here
+bssS = size(bss);
+set(0, 'CurrentFigure', fig);
+for lcX = 1:sX
+    subplot1 = subplot(sY + 1, sX, lcX);
+    hist(bss(:, lcX));
+    xlim(subplot1,[0 1.1 * bss_max_]);
+    ylim(subplot1,[0 bssS(1)/3]);
+    set(subplot1,'XGrid','on','YGrid','on');
+    medianTitle = strcat('Median = ', num2str(round(bss_median(lcX) * 100)), '%');
+    meanTitle = strcat('Mean = ', num2str(round(bss_mean(lcX) * 100)), '%');
+    minTitle = strcat('Min = ', num2str(round(bss_min(lcX) * 100)), '%');
+    maxTitle = strcat('Max = ', num2str(round(bss_max(lcX) * 100)), '%');
+    sizeTitle = strcat('Count = ', num2str(bss_size(lcX)));
+    title({
+        strcat(...
+        sizeTitle, ';'...
+        )...
+        , strcat(...
+        medianTitle, '; '...
+        , meanTitle, ';'...
+        )...
+        , strcat(...
+        minTitle, '; '...
+        , maxTitle...
+        )
+        
+        });
+end
+end
+
